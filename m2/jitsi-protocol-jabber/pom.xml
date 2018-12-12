@@ -7,14 +7,14 @@
   <parent>
     <groupId>org.jitsi</groupId>
     <artifactId>jitsi</artifactId>
-    <version>2.13-SNAPSHOT</version>
+    <version>2.13.464e576</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>jitsi-protocol-jabber</artifactId>
+  <artifactId>jitsi-protocol-jabber-bs</artifactId>
   <packaging>jar</packaging>
 
-  <name>jitsi-protocol-jabber</name>
+  <name>jitsi-protocol-jabber-bs</name>
 
   <dependencies>
     <dependency>

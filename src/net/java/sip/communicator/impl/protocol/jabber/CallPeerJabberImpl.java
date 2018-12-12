@@ -52,6 +52,7 @@ public class CallPeerJabberImpl
         CallPeerMediaHandlerJabberImpl,
         ProtocolProviderServiceJabberImpl>
 {
+    private int X = 11;
     /**
      * The <tt>Logger</tt> used by the <tt>CallPeerJabberImpl</tt> class and its
      * instances for logging output.
