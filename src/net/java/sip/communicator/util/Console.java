@@ -1,4 +1,4 @@
-package org.blaccspot;
+package net.java.sip.communicator.util;
 
 public class Console {
     public static void Log(String msg) {
