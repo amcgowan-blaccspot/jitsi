@@ -21,6 +21,7 @@ import java.util.*;
 
 import net.java.sip.communicator.service.protocol.*;
 
+import net.java.sip.communicator.util.Console;
 import org.jitsi.service.neomedia.*;
 
 /**
@@ -107,6 +108,7 @@ public class OperationSetAutoAnswerJabberImpl
         {
             isVideoCall = (direction == MediaDirection.SENDRECV);
         }
+
         Console.Log("Auto answering");
         return super.autoAnswer(call, isVideoCall);
     }
