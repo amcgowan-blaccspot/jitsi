@@ -2085,6 +2085,7 @@ public class ChatRoomJabberImpl
             lastPresenceSent, extension, extension.getNamespace(), true);
         try
         {
+            Console.Log("Sending presence on chatroom stuff");
             provider.getConnection().sendStanza(lastPresenceSent);
         }
         catch (NotConnectedException | InterruptedException e)

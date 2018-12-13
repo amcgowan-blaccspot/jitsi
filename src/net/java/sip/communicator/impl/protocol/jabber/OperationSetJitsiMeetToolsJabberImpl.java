@@ -18,6 +18,7 @@
 package net.java.sip.communicator.impl.protocol.jabber;
 
 import net.java.sip.communicator.service.protocol.*;
+import net.java.sip.communicator.util.Console;
 import org.jivesoftware.smack.packet.*;
 
 /**
@@ -65,6 +66,7 @@ public class OperationSetJitsiMeetToolsJabberImpl
     public void sendPresenceExtension(ChatRoom chatRoom,
                                       ExtensionElement extension)
     {
+        Console.Log("Send Presence - In JitsiMeetTools");
         ((ChatRoomJabberImpl)chatRoom).sendPresenceExtension(extension);
     }
 

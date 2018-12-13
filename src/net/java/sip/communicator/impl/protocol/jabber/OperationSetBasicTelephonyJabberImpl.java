@@ -118,6 +118,7 @@ public class OperationSetBasicTelephonyJabberImpl
                     JingleIQ.ELEMENT_NAME,
                     JingleIQ.NAMESPACE,
                     new JingleIQProvider());
+            Console.Log("Basic telephony registration state changed");
 
             subscribeForJinglePackets();
 
@@ -845,6 +846,7 @@ public class OperationSetBasicTelephonyJabberImpl
      */
     private void subscribeForJinglePackets()
     {
+        Console.Log("Subscribte for packets");
         XMPPConnection conn = protocolProvider.getConnection();
         conn.addAsyncStanzaListener(this, this);
         conn.registerIQRequestHandler(setRequestHandler);
@@ -936,6 +938,7 @@ public class OperationSetBasicTelephonyJabberImpl
 
         //if this is not a session-initiate we'll only take it if we've
         //already seen its session ID.
+        Console.Log("sid in basic telephony: " + sid);
         return (activeCallsRepository.findSID(sid) != null);
     }
 
@@ -948,6 +951,7 @@ public class OperationSetBasicTelephonyJabberImpl
     @Override
     public void processStanza(Stanza packet)
     {
+        Console.Log("Telephony stanzy process")
         IQ iq = (IQ) packet;
 
         /*
@@ -1028,6 +1032,8 @@ public class OperationSetBasicTelephonyJabberImpl
     private void processJingleIQ(final JingleIQ jingleIQ)
         throws NotConnectedException, InterruptedException
     {
+        Console.Log("Processing jingle iq");
+
         //let's first see whether we have a peer that's concerned by this IQ
         CallPeerJabberImpl callPeer
             = activeCallsRepository.findCallPeer(jingleIQ.getSID());
