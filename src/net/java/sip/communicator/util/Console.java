@@ -1,8 +1,15 @@
-package net.java.sip.communicator.util;
+package org.blaccspot;
 
 public class Console {
     public static void Log(String msg) {
-        msg = "[JI] [DEBUGLOG] " + msg;
+        if (!msg.contains("[")) {
+            msg = "["+msg+"]";
+        }
+        msg = "<l><d>[JI DEBUGLOG]</d>" +
+                msg.replace("[", "<type>")
+                        .replace("]", "</type><xml>")
+                        .trim() +
+                "</xml></l>";
         if (System.console() != null) {
             System.console().writer().println(msg);
         } else {
