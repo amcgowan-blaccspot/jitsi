@@ -951,7 +951,7 @@ public class OperationSetBasicTelephonyJabberImpl
     @Override
     public void processStanza(Stanza packet)
     {
-        Console.Log("Telephony stanzy process")
+        Console.Log("Telephony stanzy process");
         IQ iq = (IQ) packet;
 
         /*
