@@ -1047,6 +1047,7 @@ public class OperationSetBasicTelephonyJabberImpl
 
         if(action == JingleAction.SESSION_INITIATE)
         {
+            Console.Log("Session intiate");
             TransferPacketExtension transfer
                 = jingleIQ.getExtension(
                         TransferPacketExtension.ELEMENT_NAME,
@@ -1057,8 +1058,10 @@ public class OperationSetBasicTelephonyJabberImpl
                         CallIdExtension.NAMESPACE);
             CallJabberImpl call = null;
 
+            Console.Log("Check if transfer");
             if (transfer != null)
             {
+                Console.Log("Tranfering");
                 String sid = transfer.getSID();
 
                 if (sid != null)
@@ -1123,14 +1126,17 @@ public class OperationSetBasicTelephonyJabberImpl
         //the rest of these cases deal with existing peers
         else if(action == JingleAction.SESSION_TERMINATE)
         {
+            Console.Log("Session Terminiate");
             callPeer.processSessionTerminate(jingleIQ);
         }
         else if(action == JingleAction.SESSION_ACCEPT)
         {
+            Console.Log("Session accept");
             callPeer.processSessionAccept(jingleIQ);
         }
         else if (action == JingleAction.SESSION_INFO)
         {
+            Console.Log("Session info");
             SessionInfoPacketExtension info = jingleIQ.getSessionInfo();
 
             if(info != null)
@@ -1185,34 +1191,42 @@ public class OperationSetBasicTelephonyJabberImpl
         }
         else if (action == JingleAction.CONTENT_ACCEPT)
         {
+            Console.Log("Content accept");
             callPeer.processContentAccept(jingleIQ);
         }
         else if (action == JingleAction.CONTENT_ADD)
         {
+            Console.Log("Content add");
             callPeer.processContentAdd(jingleIQ);
         }
         else if (action == JingleAction.CONTENT_MODIFY)
         {
+            Console.Log("Content modify");
             callPeer.processContentModify(jingleIQ);
         }
         else if (action == JingleAction.CONTENT_REJECT)
         {
+            Console.Log("Content reject");
             callPeer.processContentReject(jingleIQ);
         }
         else if (action == JingleAction.CONTENT_REMOVE)
         {
+            Console.Log("Content Remove");
             callPeer.processContentRemove(jingleIQ);
         }
         else if (action == JingleAction.TRANSPORT_INFO)
         {
+            Console.Log("Transport info");
             callPeer.processTransportInfo(jingleIQ);
         }
         else if (action == JingleAction.SOURCEADD)
         {
+            Console.Log("source add");
             callPeer.processSourceAdd(jingleIQ);
         }
         else if (action == JingleAction.SOURCEREMOVE)
         {
+            Console.Log("Source remove");
             callPeer.processSourceRemove(jingleIQ);
         }
     }

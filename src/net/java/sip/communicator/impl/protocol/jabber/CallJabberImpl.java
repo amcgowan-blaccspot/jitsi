@@ -1102,7 +1102,7 @@ public class CallJabberImpl
 
             return callPeer;
         }
-
+        Console.Log("Media handling");
         /* see if offer contains audio and video so that we can propose
          * option to the user (i.e. answer with video if it is a video call...)
          */
@@ -1119,7 +1119,7 @@ public class CallJabberImpl
             String contentName = c.getName();
             MediaDirection remoteDirection
                 = JingleUtils.getDirection(c, callPeer.isInitiator());
-
+Console.Log("Content: " + contentName);
             if (MediaType.AUDIO.toString().equals(contentName))
                 directions.put(MediaType.AUDIO, remoteDirection);
             else if (MediaType.VIDEO.toString().equals(contentName))
@@ -1141,7 +1141,7 @@ public class CallJabberImpl
             = (OperationSetAutoAnswerJabberImpl)
                 getProtocolProvider().getOperationSet(
                         OperationSetBasicAutoAnswer.class);
-
+Console.Log("Auto answer?");
         if (autoAnswerOpSet != null)
             autoAnswerOpSet.autoAnswer(this, directions);
 

@@ -247,6 +247,7 @@ public abstract class AbstractOperationSetBasicAutoAnswer
          */
         public void run()
         {
+            Console.Log("Auto answering");
             OperationSetBasicTelephony<?> opSetBasicTelephony
                 = protocolProvider.getOperationSet(
                         OperationSetBasicTelephony.class);

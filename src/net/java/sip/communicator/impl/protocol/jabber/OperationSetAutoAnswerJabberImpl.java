@@ -107,7 +107,7 @@ public class OperationSetAutoAnswerJabberImpl
         {
             isVideoCall = (direction == MediaDirection.SENDRECV);
         }
-
+        Console.Log("Auto answering");
         return super.autoAnswer(call, isVideoCall);
     }
 }
