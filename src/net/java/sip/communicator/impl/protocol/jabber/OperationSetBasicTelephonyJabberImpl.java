@@ -878,6 +878,7 @@ public class OperationSetBasicTelephonyJabberImpl
     @Override
     public boolean accept(Stanza packet)
     {
+        Console.Log("Accept Jingle filter");
         // We handle JingleIQ and SessionIQ.
         if(!(packet instanceof JingleIQ))
         {
@@ -888,6 +889,7 @@ public class OperationSetBasicTelephonyJabberImpl
 
             if(callPeer != null)
             {
+                Console.Log("No call peer - probably eeror");
                 /* packet is a response to a Jingle call but is not a JingleIQ
                  * so it is for sure an error (peer does not support Jingle or
                  * does not belong to our roster)
@@ -896,6 +898,7 @@ public class OperationSetBasicTelephonyJabberImpl
 
                 if (error != null)
                 {
+                    Console.Log("Yep it error");
                     logger.error(
                             "Received an error: condition=" + error.getCondition()
                                 + " message=" + error.getConditionText());
@@ -929,6 +932,7 @@ public class OperationSetBasicTelephonyJabberImpl
         JingleIQ jingleIQ = (JingleIQ)packet;
         if (jingleIQ.getAction() == JingleAction.SESSION_INITIATE)
         {
+            Console.Log("This is the init packet");
             //we only accept session-initiate-s dealing RTP
             return jingleIQ.containsContentChildOfType(
                         RtpDescriptionPacketExtension.class);
@@ -1009,6 +1013,7 @@ public class OperationSetBasicTelephonyJabberImpl
         {
             try
             {
+                Console.Log("Iq request hhandler");
                 // send ack, then process request
                 protocolProvider.getConnection().sendStanza(IQ.createResultIQ(iq));
                 processJingleIQ((JingleIQ) iq);
@@ -1033,7 +1038,7 @@ public class OperationSetBasicTelephonyJabberImpl
         throws NotConnectedException, InterruptedException
     {
         Console.Log("Processing jingle iq");
-
+        Console.Log("Jingle Protocol Implemented here");
         //let's first see whether we have a peer that's concerned by this IQ
         CallPeerJabberImpl callPeer
             = activeCallsRepository.findCallPeer(jingleIQ.getSID());

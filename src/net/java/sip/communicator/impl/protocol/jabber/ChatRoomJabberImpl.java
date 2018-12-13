@@ -2060,6 +2060,7 @@ public class ChatRoomJabberImpl
         lastPresenceSent.setStatus(newStatus);
         try
         {
+            Console.Log("Sending status: " + newStatus);
             provider.getConnection().sendStanza(lastPresenceSent);
         }
         catch (NotConnectedException | InterruptedException e)
