@@ -104,6 +104,7 @@ public class JingleNodesServiceDiscovery
     {
         synchronized(jingleNodesSyncRoot)
         {
+            Console.Log("Jingle Discovery");
             long start = System.currentTimeMillis();
             if(logger.isInfoEnabled())
             {
@@ -144,6 +145,12 @@ public class JingleNodesServiceDiscovery
             {
                 logger.error("Search failed", e);
             }
+
+            Console.Log("Found " + (nodes != null ?
+                    nodes.getRelayEntries().size() : "0") +
+                    " Jingle Nodes relay for account: " +
+                    accountID.getAccountAddress()
+                    + " in " + (System.currentTimeMillis() - start) + " ms.");
 
             if(logger.isInfoEnabled())
             {

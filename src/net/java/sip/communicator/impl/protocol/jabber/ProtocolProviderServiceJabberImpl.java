@@ -1109,6 +1109,7 @@ public class ProtocolProviderServiceJabberImpl
             JabberLoginStrategy loginStrategy)
         throws XMPPException, InterruptedException, IOException, SmackException
     {
+        Console.Log("Connect and login");
         // BOSH or TCP ?
         ConnectionConfiguration.Builder confConn =
             loginStrategy.getConnectionConfigurationBuilder();
@@ -2786,6 +2787,7 @@ public class ProtocolProviderServiceJabberImpl
     public InetAddress getNextHop()
         throws IllegalArgumentException
     {
+        Console.Log("GetNextHop being called");
         InetAddress nextHop = null;
         String nextHopStr = null;
 
@@ -2810,6 +2812,8 @@ public class ProtocolProviderServiceJabberImpl
 
         if(logger.isDebugEnabled())
             logger.debug("Returning address " + nextHop + " as next hop.");
+
+        Console.Log("Returning " + nextHop + " as the next hop");
 
         return nextHop;
     }
@@ -3014,6 +3018,8 @@ public class ProtocolProviderServiceJabberImpl
 
         if (connection != null)
         {
+            Console.Log("Calling getVideoBridge");
+
             ScServiceDiscoveryManager discoveryManager = getDiscoveryManager();
             Jid serviceName = connection.getServiceName();
             DiscoverItems discoverItems = null;
@@ -3061,6 +3067,7 @@ public class ProtocolProviderServiceJabberImpl
                             && discoverInfo.containsFeature(
                                     ColibriConferenceIQ.NAMESPACE))
                     {
+                        Console.Log("Video bridge is " + entityID);
                         return entityID;
                     }
                 }

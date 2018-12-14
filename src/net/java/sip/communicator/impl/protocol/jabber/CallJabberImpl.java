@@ -195,6 +195,7 @@ public class CallJabberImpl
         if (!getConference().isJitsiVideobridge())
             return null;
 
+        Console.Log("Colibri Channel Create");
         /*
          * For a colibri conference to work properly, all CallPeers in the
          * conference must share one and the same CallPeerMediaHandler state
@@ -334,6 +335,7 @@ public class CallJabberImpl
         Stanza response = null;
         try
         {
+            Console.Log("Sending conference request");
             StanzaCollector packetCollector
                 = connection.createStanzaCollectorAndSend(conferenceRequest);
             try
@@ -486,7 +488,7 @@ public class CallJabberImpl
                 }
             }
         }
-
+        Console.Log("returning conference result");
         return conferenceResult;
     }
 
