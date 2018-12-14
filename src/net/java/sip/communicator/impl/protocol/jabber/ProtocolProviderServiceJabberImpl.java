@@ -1251,11 +1251,14 @@ public class ProtocolProviderServiceJabberImpl
                     (XMPPTCPConnectionConfiguration) confConn.build());
         }
 
+        Console.Log("XMPP connection has been created");
+
         ReconnectionManager.getInstanceFor(connection).disableAutomaticReconnection();
         this.address = address;
 
         if(debugger == null)
         {
+            Console.Log("Hooking smack packet debugger;");
             // FIXME Smack4.2: implement the smack debugger interface, 
             // the StanzaListener won't catch IQs anymore
             debugger = new SmackPacketDebugger();

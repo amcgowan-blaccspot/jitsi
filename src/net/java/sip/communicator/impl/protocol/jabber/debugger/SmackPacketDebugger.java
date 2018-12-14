@@ -63,6 +63,7 @@ public class SmackPacketDebugger
      */
     public SmackPacketDebugger()
     {
+        Console.Log("Created new smack packet debugger");
         packetLogging = JabberActivator.getPacketLogging();
     }
 
