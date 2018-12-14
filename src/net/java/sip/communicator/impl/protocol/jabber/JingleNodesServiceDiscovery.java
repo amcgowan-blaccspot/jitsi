@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
 
+import net.java.sip.communicator.util.Console;
 import net.java.sip.communicator.util.Logger;
 
 import org.jitsi.util.*;

@@ -935,6 +935,8 @@ public class CallJabberImpl
      */
     public CallPeerJabberImpl processSessionInitiate(JingleIQ jingleIQ)
     {
+        Console.Log("Processing session intiate");
+
         // Use the IQs 'from', instead of the jingle 'initiator' field,
         // because we want to make sure that following IQs are sent with the
         // correct 'to'.
