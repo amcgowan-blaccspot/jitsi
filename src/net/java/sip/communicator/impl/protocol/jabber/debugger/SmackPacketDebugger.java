@@ -91,6 +91,10 @@ public class SmackPacketDebugger
         {
             try
             {
+                if (packet != null) {
+                    Console.Log("[Outbound Debugger]" + packet.toXML());
+                }
+
                 if(packetLogging.isLoggingEnabled(
                         PacketLoggingService.ProtocolName.JABBER)
                     && packet != null && getSocket() != null)
@@ -130,7 +134,6 @@ public class SmackPacketDebugger
                         packetBytes = packet.toXML().toString().getBytes("UTF-8");
                     }
 
-                    Console.Log("[Outbound Debugger]" + packet.toXML());
 
                     packetLogging.logPacket(
                             PacketLoggingService.ProtocolName.JABBER,
@@ -220,6 +223,10 @@ public class SmackPacketDebugger
         {
             try
             {
+                if (packet != null) {
+                    Console.Log("[INBOUND DEBUGGER]" + packet.toXML());
+                }
+
                 if(packetLogging.isLoggingEnabled(
                         PacketLoggingService.ProtocolName.JABBER)
                     && packet != null)
@@ -245,7 +252,6 @@ public class SmackPacketDebugger
                         packetBytes = packet.toXML().toString().getBytes("UTF-8");
                     }
 
-                    Console.Log("[INBOUND DEBUGGER]" + packet.toXML());
 
                     packetLogging.logPacket(
                         PacketLoggingService.ProtocolName.JABBER,
