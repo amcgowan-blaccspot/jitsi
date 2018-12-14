@@ -46,6 +46,7 @@ import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.service.protocol.jabber.*;
 import net.java.sip.communicator.service.protocol.jabberconstants.*;
 import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.util.Console;
 import net.java.sip.communicator.util.Logger;
 
 import org.jitsi.service.configuration.*;
@@ -456,6 +457,7 @@ public class ProtocolProviderServiceJabberImpl
     public void register(final SecurityAuthority authority)
         throws OperationFailedException
     {
+        Console.Log("XMPP - Attempting Register");
         if(authority == null)
             throw new IllegalArgumentException(
                 "The register method needs a valid non-null authority impl "
@@ -473,7 +475,7 @@ public class ProtocolProviderServiceJabberImpl
             {
                 inConnectAndLogin = true;
             }
-
+            Console.Log("XMPP - Init and register");
             initializeConnectAndLogin(authority,
                 SecurityAuthority.AUTHENTICATION_REQUIRED);
         }
@@ -626,6 +628,7 @@ public class ProtocolProviderServiceJabberImpl
      */
     public TransportProtocol getTransportProtocol()
     {
+        Console.Log("XMPP- Get Transport protocol");
         // Without a connection, there is no transport available.
         if(connection != null && connection.isConnected())
         {

@@ -19,6 +19,7 @@ package net.java.sip.communicator.impl.protocol.jabber.debugger;
 
 import net.java.sip.communicator.impl.protocol.jabber.*;
 
+import net.java.sip.communicator.util.Console;
 import org.jitsi.service.packetlogging.*;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.*;
@@ -128,6 +129,8 @@ public class SmackPacketDebugger
                     {
                         packetBytes = packet.toXML().toString().getBytes("UTF-8");
                     }
+
+                    Console.Log("[Outbound Debugger]" + packet.toXML());
 
                     packetLogging.logPacket(
                             PacketLoggingService.ProtocolName.JABBER,
@@ -241,6 +244,8 @@ public class SmackPacketDebugger
                     {
                         packetBytes = packet.toXML().toString().getBytes("UTF-8");
                     }
+
+                    Console.Log("[INBOUND DEBUGGER]" + packet.toXML());
 
                     packetLogging.logPacket(
                         PacketLoggingService.ProtocolName.JABBER,
