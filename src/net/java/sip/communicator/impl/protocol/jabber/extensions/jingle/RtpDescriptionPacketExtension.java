@@ -52,6 +52,11 @@ public class RtpDescriptionPacketExtension
     public static final String SSRC_ATTR_NAME = "ssrc";
 
     /**
+     * The name of the <tt>profile</tt> description argument.
+     */
+    public static final String PROFILE_ATTR_NAME = "profile";
+
+    /**
      * The list of payload types that this description element contains.
      */
     private final List<PayloadTypePacketExtension> payloadTypes
@@ -145,6 +150,16 @@ public class RtpDescriptionPacketExtension
     public String getSsrc()
     {
         return getAttributeAsString(SSRC_ATTR_NAME);
+    }
+
+    public void setProfile(String profile)
+    {
+        super.setAttribute(PROFILE_ATTR_NAME, profile);
+    }
+
+    public String getProfile()
+    {
+        return getAttributeAsString(PROFILE_ATTR_NAME);
     }
 
     /**

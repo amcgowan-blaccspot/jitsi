@@ -103,6 +103,28 @@ public class JingleIQProvider extends IQProvider<JingleIQ>
                         <CryptoPacketExtension>
                         (CryptoPacketExtension.class));
 
+        //<streams/> provider
+        ProviderManager.addExtensionProvider(
+                StreamsPacketExtension.ELEMENT_NAME,
+                RtpDescriptionPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider
+                        <StreamsPacketExtension>(StreamsPacketExtension.class));
+
+        //<stream/> provider
+        ProviderManager.addExtensionProvider(
+                StreamPacketExtension.ELEMENT_NAME,
+                RtpDescriptionPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider
+                        <StreamPacketExtension>(StreamPacketExtension.class));
+
+        //<ssrc/> provider
+        ProviderManager.addExtensionProvider(
+                SsrcPacketExtension.ELEMENT_NAME,
+                RtpDescriptionPacketExtension.NAMESPACE,
+                new DefaultPacketExtensionProvider
+                        <SsrcPacketExtension>(SsrcPacketExtension.class));
+
+
         // <bundle/> provider
         ProviderManager.addExtensionProvider(
                 BundlePacketExtension.ELEMENT_NAME,
