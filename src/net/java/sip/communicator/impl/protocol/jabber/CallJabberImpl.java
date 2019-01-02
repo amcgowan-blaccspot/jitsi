@@ -950,7 +950,7 @@ public class CallJabberImpl
             = new CallPeerJabberImpl(remoteParty, this, jingleIQ);
 
         addCallPeer(callPeer);
-
+        Console.Log("Call peer added");
         /*
          * We've already sent ack to the specified session-initiate so if it has
          * been sent as part of an attended transfer, we have to hang up on the
@@ -1028,6 +1028,7 @@ public class CallJabberImpl
         //before notifying about this call, make sure that it looks alright
         try
         {
+            Console.Log("Another session processs");
             callPeer.processSessionInitiate(jingleIQ);
         }
         catch (SmackException.NotConnectedException | InterruptedException e)

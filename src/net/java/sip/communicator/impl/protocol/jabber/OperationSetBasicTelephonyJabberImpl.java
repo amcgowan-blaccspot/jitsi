@@ -1039,6 +1039,7 @@ public class OperationSetBasicTelephonyJabberImpl
     {
         Console.Log("Processing jingle iq");
         Console.Log("Jingle Protocol Implemented here");
+        Console.Log("[INTERNALJINGLE]" + jingleIQ.toXML().toString());
         //let's first see whether we have a peer that's concerned by this IQ
         CallPeerJabberImpl callPeer
             = activeCallsRepository.findCallPeer(jingleIQ.getSID());
@@ -1104,6 +1105,8 @@ public class OperationSetBasicTelephonyJabberImpl
                 call = new CallJabberImpl(this);
 
             final CallJabberImpl finalCall = call;
+
+            JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ);
 
             new Thread()
             {

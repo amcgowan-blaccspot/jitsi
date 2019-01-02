@@ -270,6 +270,7 @@ public class OperationSetTelephonyConferencingJabberImpl
     private IQ getConferenceInfo(CallPeerJabberImpl callPeer,
                                  final ConferenceInfoDocument confInfo)
     {
+        Console.Log("Get conference info");
         String callPeerSID = callPeer.getSID();
 
         if (callPeerSID == null)

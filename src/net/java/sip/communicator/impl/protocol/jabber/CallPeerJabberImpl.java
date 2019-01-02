@@ -138,6 +138,7 @@ public class CallPeerJabberImpl
                               CallJabberImpl owningCall)
     {
         super(owningCall);
+        Console.Log("New CallPeerJabberImpl");
         this.peerJID = peerAddress;
         setMediaHandler(new CallPeerMediaHandlerJabberImpl(this));
     }
@@ -156,6 +157,8 @@ public class CallPeerJabberImpl
                               JingleIQ       sessionIQ)
     {
         this(peerAddress, owningCall);
+        Console.Log("Session initiate already set");
+
         this.sessionInitIQ = sessionIQ;
     }
 
@@ -216,7 +219,10 @@ public class CallPeerJabberImpl
         //relay needs to see it before letting hole punching techniques through.
         try
         {
-            getProtocolProvider().getConnection().sendStanza(response);
+            Console.Log("Sending Session Accept");
+            Console.Log("Modifying jingle");
+            JingleIQ newResponse = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnBeforeSend, response);
+            getProtocolProvider().getConnection().sendStanza(newResponse);
         }
         catch (NotConnectedException | InterruptedException e)
         {
@@ -399,7 +405,7 @@ public class CallPeerJabberImpl
         throws OperationFailedException
     {
         initiator = false;
-
+        Console.Log("I am not initiator - createing description thoughh");
         //Create the media description that we'd like to send to the other side.
         List<ContentPacketExtension> offer
             = getMediaHandler().createContentList();
@@ -436,6 +442,7 @@ public class CallPeerJabberImpl
 
         try
         {
+            Console.Log("Sending session initiate");
             protocolProvider.getConnection().sendStanza(sessionInitIQ);
         }
         catch (NotConnectedException | InterruptedException e)
@@ -851,7 +858,7 @@ public class CallPeerJabberImpl
         // Do initiate the session.
         this.sessionInitIQ = sessionInitIQ;
         this.initiator = true;
-
+        Console.Log("I am the initiator");
         // This is the SDP offer that came from the initial session-initiate.
         // Contrary to SIP, we are guaranteed to have content because XEP-0166
         // says: "A session consists of at least one content type at a time."
@@ -911,6 +918,7 @@ public class CallPeerJabberImpl
         if (logger.isTraceEnabled())
             logger.trace("will send ringing response: ");
 
+        Console.Log("Ringing");
         getProtocolProvider().getConnection().sendStanza(
                 JinglePacketFactory.createRinging(sessionInitIQ));
 
