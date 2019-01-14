@@ -2020,6 +2020,15 @@ public class ProtocolProviderServiceJabberImpl
             addSupportedOperationSet(OperationSetConnectionInfo.class,
                     opsetConnectionInfo);
 
+
+
+
+            supportedFeatures.add("urn:ietf:rfc:4588");
+            supportedFeatures.add("urn:ietf:rfc:5761");
+            //supportedFeatures.add("urn:ietf:rfc:5888");
+
+
+
             isInitialized = true;
         }
     }

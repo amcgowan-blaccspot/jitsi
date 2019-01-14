@@ -1822,14 +1822,17 @@ public class CallPeerMediaHandlerJabberImpl
             public void sendTransportInfo(
                 Iterable<ContentPacketExtension> contents)
             {
-                try
-                {
-                    getPeer().sendTransportInfo(contents);
-                }
-                catch (NotConnectedException | InterruptedException e)
-                {
-                    logger.error("Could not send transport info", e);
-                }
+                //try
+                //{
+                    Console.Log("Skipping transport info send - this needs to be done by IceLink");
+                    Console.Log("There may be more that can be skipped prior to getting to this point");
+                    //onsole.Log("I am going to maybe send transport info");
+                    //getPeer().sendTransportInfo(contents);
+                //}
+                //catch (NotConnectedException | InterruptedException e)
+                //{
+                //    logger.error("Could not send transport info", e);
+                //}
             }
         };
 
@@ -1837,6 +1840,7 @@ public class CallPeerMediaHandlerJabberImpl
          * In order to minimize post-pickup delay, start establishing the
          * connectivity prior to ringing.
          */
+        Console.Log("Havesting candidates. ");
         harvestCandidates(offer, answer, infoSender);
 
         /*
@@ -1850,6 +1854,7 @@ public class CallPeerMediaHandlerJabberImpl
          * have chosen to wait for the connectivity establishment to finish
          * before we begin ringing and send session-accept.
          */
+        Console.Log("Starting connectivity establishment. Maybe we don't want to do this.");
         getTransportManager().startConnectivityEstablishment(offer);
     }
 

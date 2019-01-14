@@ -166,10 +166,39 @@ public class CallPeerJabberImpl
      * Send a session-accept <tt>JingleIQ</tt> to this <tt>CallPeer</tt>
      * @throws OperationFailedException if we fail to create or send the
      * response.
+     *
+     * we are bypassing all existing code here
+     * IceLink generates the new session accept and starts the media
+     * so we can avoid all media handling in Jitsi.
+     *
+     * This still sets the connected presence state.
+     *
+     * This is now totall bypassed
+     *
      */
     public synchronized void answer()
         throws OperationFailedException
     {
+        try
+        {
+            Console.Log("Sending Session Accept");
+            Console.Log("Modifying jingle");
+            JingleIQ newResponse = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnBeforeSend, sessionInitIQ);
+            getProtocolProvider().getConnection().sendStanza(newResponse);
+        }
+        catch (NotConnectedException | InterruptedException e)
+        {
+            throw new OperationFailedException("Could not send session accept", 0, e);
+        }
+
+        //tell everyone we are connected so that the audio notifications would
+        //stop
+        setState(CallPeerState.CONNECTED);
+
+
+
+
+        /*
         Iterable<ContentPacketExtension> answer;
         CallPeerMediaHandlerJabberImpl mediaHandler = getMediaHandler();
 
@@ -264,6 +293,7 @@ public class CallPeerJabberImpl
         //tell everyone we are connected so that the audio notifications would
         //stop
         setState(CallPeerState.CONNECTED);
+        */
     }
 
     /**
@@ -866,7 +896,9 @@ public class CallPeerJabberImpl
 
         try
         {
-            getMediaHandler().processOffer(offer);
+            Console.Log("Processing offer");
+            Console.Log("Skipping in Jitsi - we don't need to do this since IceLink is going to process");
+            //getMediaHandler().processOffer(offer);
 
             CoinPacketExtension coin = null;
 
@@ -936,6 +968,8 @@ public class CallPeerJabberImpl
                 && discoverInfo.containsFeature(
                         ProtocolProviderServiceJabberImpl.URN_IETF_RFC_3264))
         {
+            Console.Log("Sending an early ice peek?");
+            Console.Log("This likely needs to be skipped as well.");
             getProtocolProvider().getConnection().sendStanza(
                     JinglePacketFactory.createDescriptionInfo(
                             sessionInitIQ.getTo(),
@@ -944,6 +978,7 @@ public class CallPeerJabberImpl
                             getMediaHandler().getLocalContentList()));
         }
 
+        Console.Log("Processing sources add - maybe we don't want to do this either");
         // process members if any
         processSourceAdd(sessionInitIQ);
     }
@@ -1471,6 +1506,7 @@ public class CallPeerJabberImpl
         transportInfo.setTo(peerJID);
         transportInfo.setType(IQ.Type.set);
 
+        Console.Log("This is right before we send transport info");
         StanzaCollector collector = protocolProvider.getConnection()
             .createStanzaCollectorAndSend(transportInfo);
         try
@@ -1802,9 +1838,11 @@ public class CallPeerJabberImpl
                     member = new AbstractConferenceMember(
                         this,
                         owner.toString());
+                    Console.Log("Adding conference member");
                     this.addConferenceMember(member);
                 }
 
+                Console.Log("Setting an audio ssrc");
                 member.setAudioSsrc(Long.valueOf(src.getSSRC()));
             }
         }

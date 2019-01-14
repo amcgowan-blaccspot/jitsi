@@ -1106,16 +1106,11 @@ public class OperationSetBasicTelephonyJabberImpl
 
             final CallJabberImpl finalCall = call;
 
-            JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ);
-
-            new Thread()
-            {
-                @Override
-                public void run()
-                {
-                    finalCall.processSessionInitiate(jingleIQ);
-                }
-            }.start();
+            // Todo: change this to jingle processors
+            Console.Log("Calling jingle listener processor");
+            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ);
+            Console.Log("sending stanza");
+            protocolProvider.getConnection().sendStanza(result);
 
             return;
         }
