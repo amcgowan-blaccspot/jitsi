@@ -4,6 +4,8 @@ import net.java.sip.communicator.impl.protocol.jabber.extensions.jingle.JingleIQ
 
 import java.util.*;
 
+import org.jivesoftware.smack.*;
+
 public class JingleListeners {
     public enum JingleEvent {
         OnReceive,
@@ -20,10 +22,10 @@ public class JingleListeners {
         listeners.get(event).add(listener);
     }
 
-    public static JingleIQ triggerEvent(JingleEvent event, JingleIQ jingle) {
+    public static JingleIQ triggerEvent(JingleEvent event, JingleIQ jingle, XMPPConnection connection) {
         if (listeners.containsKey(event)) {
             for (JingleListener j : listeners.get(event)) {
-                jingle = j.invoke(jingle);
+                jingle = j.invoke(jingle, connection);
             }
         }
 

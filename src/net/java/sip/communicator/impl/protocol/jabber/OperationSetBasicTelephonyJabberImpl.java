@@ -1045,6 +1045,7 @@ public class OperationSetBasicTelephonyJabberImpl
             = activeCallsRepository.findCallPeer(jingleIQ.getSID());
 
         JingleAction action = jingleIQ.getAction();
+protocolProvider.getConnection();
 
         if(action == JingleAction.SESSION_INITIATE)
         {
@@ -1108,7 +1109,7 @@ public class OperationSetBasicTelephonyJabberImpl
 
             // Todo: change this to jingle processors
             Console.Log("Calling jingle listener processor");
-            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ);
+            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
             Console.Log("sending stanza");
             protocolProvider.getConnection().sendStanza(result);
 
@@ -1215,7 +1216,11 @@ public class OperationSetBasicTelephonyJabberImpl
         else if (action == JingleAction.TRANSPORT_INFO)
         {
             Console.Log("Transport info");
+            Console.Log("[TRANSPORTINFO]" + jingleIQ.toXML());
             callPeer.processTransportInfo(jingleIQ);
+
+            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
+
         }
         else if (action == JingleAction.SOURCEADD)
         {

@@ -183,7 +183,7 @@ public class CallPeerJabberImpl
         {
             Console.Log("Sending Session Accept");
             Console.Log("Modifying jingle");
-            JingleIQ newResponse = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnBeforeSend, sessionInitIQ);
+            JingleIQ newResponse = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnBeforeSend, sessionInitIQ, getProtocolProvider().getConnection());
             getProtocolProvider().getConnection().sendStanza(newResponse);
         }
         catch (NotConnectedException | InterruptedException e)
