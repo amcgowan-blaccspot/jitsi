@@ -407,4 +407,19 @@ public class JingleIQ extends IQ
     {
         return this.sessionInfo;
     }
+
+
+    private String namespace = null;
+    public void setNamespace(String value) {
+        this.namespace = value;
+    }
+    @Override
+    protected void addCommonAttributes(org.jivesoftware.smack.util.XmlStringBuilder xml) {
+        xml.optAttribute("to", this.getTo());
+        xml.optAttribute("from", this.getFrom());
+        xml.optAttribute("id", this.getStanzaId());
+        xml.xmllangAttribute(this.getLanguage());
+        xml.xmlnsAttribute(namespace);
+
+    }
 }
