@@ -2041,7 +2041,7 @@ public class ProtocolProviderServiceJabberImpl
         // Add Jingle features to supported features.
         supportedFeatures.add(URN_XMPP_JINGLE);
         supportedFeatures.add(URN_XMPP_JINGLE_RTP);
-        supportedFeatures.add(URN_XMPP_JINGLE_RAW_UDP_0);
+        //supportedFeatures.add(URN_XMPP_JINGLE_RAW_UDP_0);
 
         /*
          * Reflect the preference of the user with respect to the use of
