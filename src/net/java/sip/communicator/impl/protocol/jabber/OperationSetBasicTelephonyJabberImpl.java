@@ -1109,9 +1109,12 @@ protocolProvider.getConnection();
 
             // Todo: change this to jingle processors
             Console.Log("Calling jingle listener processor");
-            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
-            Console.Log("sending stanza");
-            protocolProvider.getConnection().sendStanza(result);
+
+            Runnable runnable = () -> {
+                JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
 
             return;
         }
