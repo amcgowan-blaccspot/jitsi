@@ -1045,7 +1045,10 @@ public class OperationSetBasicTelephonyJabberImpl
             = activeCallsRepository.findCallPeer(jingleIQ.getSID());
 
         JingleAction action = jingleIQ.getAction();
-protocolProvider.getConnection();
+        protocolProvider.getConnection();
+
+        Console.Log("Action is: " + action.toString());
+
 
         if(action == JingleAction.SESSION_INITIATE)
         {
@@ -1118,12 +1121,13 @@ protocolProvider.getConnection();
 
             return;
         }
-        else if (callPeer == null)
+        /*else if (callPeer == null)
         {
+            Console.Log("Callppeer was null");
             if (logger.isDebugEnabled())
                 logger.debug("Received a stray trying response.");
             return;
-        }
+        }*/
 
         //the rest of these cases deal with existing peers
         else if(action == JingleAction.SESSION_TERMINATE)
@@ -1228,12 +1232,21 @@ protocolProvider.getConnection();
         else if (action == JingleAction.SOURCEADD)
         {
             Console.Log("source add");
-            callPeer.processSourceAdd(jingleIQ);
+            //callPeer.processSourceAdd(jingleIQ);
+
+            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
         }
         else if (action == JingleAction.SOURCEREMOVE)
         {
+
+            Console.Log("There should be nothing on line 1242");
             Console.Log("Source remove");
-            callPeer.processSourceRemove(jingleIQ);
+            //callPeer.processSourceRemove(jingleIQ);
+            Console.Log("Source removing this should show up in logs");
+            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
+        }
+        else {
+            Console.Log("Got nuthin for ya bro");
         }
     }
 
