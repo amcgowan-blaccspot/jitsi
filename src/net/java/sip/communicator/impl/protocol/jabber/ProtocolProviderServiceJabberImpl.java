@@ -2080,6 +2080,8 @@ public class ProtocolProviderServiceJabberImpl
         {
             supportedFeatures.add(URN_XMPP_JINGLE_DTLS_SRTP);
         }
+
+        supportedFeatures.add("urn:xmpp:jingle:transports:dtls-sctp:1");
     }
 
     /**
