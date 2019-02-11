@@ -21,6 +21,8 @@ import java.util.*;
 
 import net.java.sip.communicator.impl.protocol.jabber.extensions.condesc.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.jingle.*;
+import net.java.sip.communicator.impl.protocol.jabber.extensions.speaker.*;
+
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
 import net.java.sip.communicator.service.protocol.jabber.*;
@@ -39,6 +41,8 @@ import org.jivesoftware.smackx.disco.packet.*;
 import org.jxmpp.jid.*;
 import org.jxmpp.jid.impl.*;
 import org.jxmpp.stringprep.*;
+
+
 
 /**
  * Implements all call management logic and exports basic telephony support by
@@ -83,6 +87,9 @@ public class OperationSetBasicTelephonyJabberImpl
     private final JingleIqSetRequestHandler setRequestHandler
         = new JingleIqSetRequestHandler();
 
+    private final SpeakerIQHandler speakerRequestHandler
+            = new SpeakerIQHandler();
+
     /**
      * Google Voice domain.
      */
@@ -118,6 +125,12 @@ public class OperationSetBasicTelephonyJabberImpl
                     JingleIQ.ELEMENT_NAME,
                     JingleIQ.NAMESPACE,
                     new JingleIQProvider());
+
+            ProviderManager.addIQProvider(
+                    SpeakerIQ.ELEMENT_NAME,
+                    SpeakerIQ.NAMESPACE,
+                    new SpeakerIQProvider());
+
             Console.Log("Basic telephony registration state changed");
 
             subscribeForJinglePackets();
@@ -850,6 +863,7 @@ public class OperationSetBasicTelephonyJabberImpl
         XMPPConnection conn = protocolProvider.getConnection();
         conn.addAsyncStanzaListener(this, this);
         conn.registerIQRequestHandler(setRequestHandler);
+        conn.registerIQRequestHandler(speakerRequestHandler);
     }
 
     /**
@@ -862,6 +876,7 @@ public class OperationSetBasicTelephonyJabberImpl
         {
             connection.removeAsyncStanzaListener(this);
             connection.unregisterIQRequestHandler(setRequestHandler);
+            connection.unregisterIQRequestHandler(speakerRequestHandler);
         }
     }
 
@@ -881,6 +896,10 @@ public class OperationSetBasicTelephonyJabberImpl
 
         Console.Log("Accept Jingle filter");
         // We handle JingleIQ and SessionIQ.
+
+        if (packet instanceof SpeakerIQ) {
+            logger.info("Have a speaker iq");
+        }
 
         if(!(packet instanceof JingleIQ))
         {
@@ -1009,6 +1028,34 @@ public class OperationSetBasicTelephonyJabberImpl
                 throw (ThreadDeath) t;
         }
     }
+    private class SpeakerIQHandler extends AbstractIqRequestHandler {
+
+        protected SpeakerIQHandler() {
+            super(SpeakerIQ.ELEMENT_NAME, SpeakerIQ.NAMESPACE, IQ.Type.set, Mode.sync);
+        }
+
+        @Override
+        public IQ handleIQRequest(IQ iqRequest) {
+            try
+            {
+                logger.info("Received speaker iq");
+                // send ack, then process request
+                protocolProvider.getConnection().sendStanza(IQ.createResultIQ(iqRequest));
+
+                IQListeners.triggerEvent(IQListeners.IQEvent.OnReceive, (SpeakerIQ)iqRequest, protocolProvider.getConnection());
+
+                //iceLinkGateway.processSpeakerChange(iqRequest);
+            }
+            catch (Exception e)
+            {
+                logger.error("Error while handling incoming " + iqRequest.getClass()
+                        + " packet: ", e);
+            }
+
+            return null;
+        }
+    }
+
 
     private class JingleIqSetRequestHandler extends AbstractIqRequestHandler
     {
@@ -1126,7 +1173,7 @@ public class OperationSetBasicTelephonyJabberImpl
             Console.Log("Calling jingle listener processor");
 
             Runnable runnable = () -> {
-                JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
+                IQListeners.triggerEvent(IQListeners.IQEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
             };
             Thread thread = new Thread(runnable);
             thread.start();
@@ -1238,7 +1285,7 @@ public class OperationSetBasicTelephonyJabberImpl
             Console.Log("[TRANSPORTINFO]" + jingleIQ.toXML());
             callPeer.processTransportInfo(jingleIQ);
 
-            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
+            JingleIQ result = (JingleIQ)IQListeners.triggerEvent(IQListeners.IQEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
 
         }
         else if (action == JingleAction.SOURCEADD)
@@ -1246,7 +1293,7 @@ public class OperationSetBasicTelephonyJabberImpl
             Console.Log("source add");
             //callPeer.processSourceAdd(jingleIQ);
 
-            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
+            JingleIQ result = (JingleIQ)IQListeners.triggerEvent(IQListeners.IQEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
         }
         else if (action == JingleAction.SOURCEREMOVE)
         {
@@ -1255,7 +1302,7 @@ public class OperationSetBasicTelephonyJabberImpl
             Console.Log("Source remove");
             //callPeer.processSourceRemove(jingleIQ);
             Console.Log("Source removing this should show up in logs");
-            JingleIQ result = JingleListeners.triggerEvent(JingleListeners.JingleEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
+            JingleIQ result = (JingleIQ)IQListeners.triggerEvent(IQListeners.IQEvent.OnReceive, jingleIQ, protocolProvider.getConnection());
         }
         else {
             Console.Log("Got nuthin for ya bro");

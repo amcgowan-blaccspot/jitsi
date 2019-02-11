@@ -37,6 +37,8 @@ import net.java.sip.communicator.impl.protocol.jabber.extensions.jibri.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.jingle.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.jingleinfo.*;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.jitsimeet.*;
+import net.java.sip.communicator.impl.protocol.jabber.extensions.speaker.SpeakerIQ;
+import net.java.sip.communicator.impl.protocol.jabber.extensions.speaker.SpeakerIQProvider;
 import net.java.sip.communicator.impl.protocol.jabber.extensions.thumbnail.*;
 import net.java.sip.communicator.service.certificate.*;
 import net.java.sip.communicator.service.dns.*;
@@ -1741,6 +1743,11 @@ public class ProtocolProviderServiceJabberImpl
             ProviderManager.addIQProvider( JingleIQ.ELEMENT_NAME,
                                            JingleIQ.NAMESPACE,
                                            new JingleIQProvider());
+
+            //register speaker iq provider for dominant speakers
+            ProviderManager.addIQProvider( SpeakerIQ.ELEMENT_NAME,
+                                           SpeakerIQ.NAMESPACE,
+                                           new SpeakerIQProvider());
 
             // register our input event provider
             ProviderManager.addIQProvider(InputEvtIQ.ELEMENT_NAME,
