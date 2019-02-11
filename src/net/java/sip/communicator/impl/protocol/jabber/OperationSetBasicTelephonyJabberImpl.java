@@ -878,10 +878,19 @@ public class OperationSetBasicTelephonyJabberImpl
     @Override
     public boolean accept(Stanza packet)
     {
+
         Console.Log("Accept Jingle filter");
         // We handle JingleIQ and SessionIQ.
+
         if(!(packet instanceof JingleIQ))
         {
+
+            Console.Log("not an instance of jingle");
+            if (packet.toXML().toString().contains("<speaker")) {
+                Console.Log("It's a speaker so accept it.");
+                return true;
+            }
+
             String packetID = packet.getStanzaId();
             AbstractCallPeer<?, ?> callPeer
                 = activeCallsRepository.findCallPeerBySessInitPacketID(
@@ -926,6 +935,9 @@ public class OperationSetBasicTelephonyJabberImpl
                     callPeer.setState(CallPeerState.FAILED, message);
                 }
             }
+
+            Console.Log("Not accepting");
+
             return false;
         }
 
