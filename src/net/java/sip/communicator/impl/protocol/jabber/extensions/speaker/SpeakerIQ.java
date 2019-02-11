@@ -3,6 +3,9 @@ package net.java.sip.communicator.impl.protocol.jabber.extensions.speaker;
 import org.jivesoftware.smack.packet.ExtensionElement;
 import org.jivesoftware.smack.packet.IQ;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpeakerIQ extends IQ {
 
     public static final String NAMESPACE ="urn:xmpp:speaker:1";
@@ -24,6 +27,32 @@ public class SpeakerIQ extends IQ {
 
     public String getEndpointId() {
         return this.endpointId;
+    }
+
+    public List<String> getAudioSsrcs() {
+        ArrayList<String> audioSsrcs = new ArrayList<>();
+
+        List<ExtensionElement> audioSsrcsExtensions = this.getExtensions(SpeakerAudioExtension.ELEMENT_NAME, SpeakerIQ.NAMESPACE);
+
+        for (ExtensionElement e : audioSsrcsExtensions
+             ) {
+            audioSsrcs.add(((SpeakerAudioExtension)e).getSsrc());
+        }
+
+        return audioSsrcs;
+    }
+
+    public List<String> getVideoSsrcs() {
+        ArrayList<String> videoSsrcs = new ArrayList<>();
+
+        List<ExtensionElement> videoSsrcsExtensions = this.getExtensions(SpeakerVideoExtension.ELEMENT_NAME, SpeakerIQ.NAMESPACE);
+
+        for (ExtensionElement e : videoSsrcsExtensions
+        ) {
+            videoSsrcs.add(((SpeakerVideoExtension)e).getSsrc());
+        }
+
+        return videoSsrcs;
     }
 
     @Override

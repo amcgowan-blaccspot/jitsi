@@ -1,6 +1,7 @@
 package net.java.sip.communicator.impl.protocol.jabber.extensions.speaker;
 
 import net.java.sip.communicator.impl.protocol.jabber.extensions.DefaultPacketExtensionProvider;
+import net.java.sip.communicator.util.Console;
 import org.jivesoftware.smack.provider.IQProvider;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.xmlpull.v1.XmlPullParser;
@@ -8,6 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 public class SpeakerIQProvider extends IQProvider<SpeakerIQ> {
 
     public SpeakerIQProvider() {
+
         Console.Log("Adding Audio Extension");
         ProviderManager.addExtensionProvider(
                 SpeakerAudioExtension.ELEMENT_NAME,
@@ -67,6 +69,8 @@ public class SpeakerIQProvider extends IQProvider<SpeakerIQ> {
                     Console.Log("Adding audio");
                     SpeakerAudioExtension audio
                             = audioProvider.parse(parser);
+
+
 
                     speakerIQ.addExtension(audio);
                 }

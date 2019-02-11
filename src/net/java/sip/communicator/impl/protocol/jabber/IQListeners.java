@@ -1,35 +1,35 @@
 package net.java.sip.communicator.impl.protocol.jabber;
 
-import net.java.sip.communicator.impl.protocol.jabber.extensions.jingle.JingleIQ;
 
 import java.util.*;
-
 import org.jivesoftware.smack.*;
+import org.jivesoftware.smack.packet.*;
 
-public class JingleListeners {
-    public enum JingleEvent {
+
+public class IQListeners {
+    public enum IQEvent {
         OnReceive,
         OnBeforeSend
     }
 
-    private static Map<JingleEvent, ArrayList<JingleListener>> listeners = new HashMap<>();
+    private static Map<IQEvent, ArrayList<IQListener>> listeners = new HashMap<>();
 
 
-    public static void addListener(JingleEvent event, JingleListener listener) {
+    public static void addListener(IQEvent event, IQListener listener) {
         if (!listeners.containsKey(event)) {
-            listeners.put(event, new ArrayList<JingleListener>());
+            listeners.put(event, new ArrayList<IQListener>());
         }
         listeners.get(event).add(listener);
     }
 
-    public static JingleIQ triggerEvent(JingleEvent event, JingleIQ jingle, XMPPConnection connection) {
+    public static IQ triggerEvent(IQEvent event, IQ iq, XMPPConnection connection) {
         if (listeners.containsKey(event)) {
-            for (JingleListener j : listeners.get(event)) {
-                jingle = j.invoke(jingle, connection);
+            for (IQListener j : listeners.get(event)) {
+                iq = j.invoke(iq, connection);
             }
         }
 
-        return jingle;
+        return iq;
     }
 
 }
